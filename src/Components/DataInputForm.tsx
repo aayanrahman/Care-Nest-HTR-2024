@@ -42,74 +42,87 @@ const DataInputForm: React.FC<DataInputFormProps> = ({ addData }) => {
             style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: "15px", // Space between form fields
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "10px", // Reduced gap between elements
+                height: "100vh", // Full viewport height
+                width: "100vw", // Full viewport width
                 backgroundColor: "#f9f9f9",
-                padding: "20px",
-                borderRadius: "8px",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                maxWidth: "400px", // Constrain form width
-                margin: "0 auto", // Center horizontally
+                padding: "10px", // Reduced padding
+                boxSizing: "border-box",
             }}
         >
-            <label style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                Temperature:
-                <input
-                    type="text"
-                    value={temperature}
-                    onChange={(e) => setTemperature(e.target.value)}
-                    required
-                    style={{
-                        padding: "10px",
-                        borderRadius: "4px",
-                        border: "1px solid #ddd",
-                        fontSize: "1rem",
-                    }}
-                />
-            </label>
-            <label style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                Weight:
-                <input
-                    type="text"
-                    value={weight}
-                    onChange={(e) => setWeight(e.target.value)}
-                    required
-                    style={{
-                        padding: "10px",
-                        borderRadius: "4px",
-                        border: "1px solid #ddd",
-                        fontSize: "1rem",
-                    }}
-                />
-            </label>
-            <label style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                Age:
-                <input
-                    type="text"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                    required
-                    style={{
-                        padding: "10px",
-                        borderRadius: "4px",
-                        border: "1px solid #ddd",
-                        fontSize: "1rem",
-                    }}
-                />
-            </label>
-            <button
-                type="submit"
+            <div
                 style={{
-                    padding: "10px 20px",
-                    backgroundColor: "#3498db",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    fontSize: "1rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px", // Smaller gap between fields
+                    width: "100%",
+                    maxWidth: "300px", // Reduced max width for a compact form
                 }}
             >
-                Add Data
-            </button>
+                <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <span style={{ fontSize: "0.9rem", fontWeight: "500" }}>Temperature:</span>
+                    <input
+                        type="text"
+                        value={temperature}
+                        onChange={(e) => setTemperature(e.target.value)}
+                        required
+                        style={{
+                            padding: "8px",
+                            borderRadius: "4px",
+                            border: "1px solid #ddd",
+                            fontSize: "0.9rem",
+                        }}
+                    />
+                </label>
+                <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <span style={{ fontSize: "0.9rem", fontWeight: "500" }}>Weight:</span>
+                    <input
+                        type="text"
+                        value={weight}
+                        onChange={(e) => setWeight(e.target.value)}
+                        required
+                        style={{
+                            padding: "8px",
+                            borderRadius: "4px",
+                            border: "1px solid #ddd",
+                            fontSize: "0.9rem",
+                        }}
+                    />
+                </label>
+                <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <span style={{ fontSize: "0.9rem", fontWeight: "500" }}>Age:</span>
+                    <input
+                        type="text"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                        required
+                        style={{
+                            padding: "8px",
+                            borderRadius: "4px",
+                            border: "1px solid #ddd",
+                            fontSize: "0.9rem",
+                        }}
+                    />
+                </label>
+                <button
+                    type="submit"
+                    style={{
+                        padding: "10px 15px",
+                        backgroundColor: "#3498db",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        fontSize: "0.9rem",
+                        width: "100%", // Button takes full width of form
+                        fontWeight: "500",
+                    }}
+                >
+                    Add Data
+                </button>
+            </div>
         </form>
     );
 };
