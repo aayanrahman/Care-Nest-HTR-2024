@@ -1,40 +1,39 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
-import { getChatGPTResponse } from "../services/api";
-import { Data } from "../types";
+import React, { useState } from "react";
 
-interface DataInputFormProps {
-    addData: (data: Data) => void;
-}
-
-interface FormData {
+interface Data {
+    id: number;
+    value: number;
     temperature: string;
     weight: string;
     age: string;
+    advice: string;
+}
+
+interface DataInputFormProps {
+    addData: (newData: Data) => void;
 }
 
 const DataInputForm: React.FC<DataInputFormProps> = ({ addData }) => {
-    const [formData, setFormData] = useState<FormData>({
-        temperature: "",
-        weight: "",
-        age: "",
-    });
+    const [temperature, setTemperature] = useState<string>("");
+    const [weight, setWeight] = useState<string>("");
+    const [age, setAge] = useState<string>("");
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-    const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-        const response = await getChatGPTResponse(formData);
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
         const newData: Data = {
             id: Date.now(),
-            value: 0, // Set a default value or calculate it based on your requirements
-            ...formData,
-            advice: response,
+            value: parseFloat(temperature), // Assuming a numeric value for the chart
+            temperature,
+            weight,
+            age,
+            advice: "Fetching advice...", // Placeholder for the advice
         };
         addData(newData);
-        setFormData({ temperature: "", weight: "", age: "" });
+
+        // Clear inputs
+        setTemperature("");
+        setWeight("");
+        setAge("");
     };
 
     return (
@@ -42,31 +41,31 @@ const DataInputForm: React.FC<DataInputFormProps> = ({ addData }) => {
             <label>
                 Temperature:
                 <input
-                    type="number"
-                    name="temperature"
-                    value={formData.temperature}
-                    onChange={handleChange}
+                    type="text"
+                    value={temperature}
+                    onChange={(e) => setTemperature(e.target.value)}
+                    required
                 />
             </label>
             <label>
                 Weight:
                 <input
-                    type="number"
-                    name="weight"
-                    value={formData.weight}
-                    onChange={handleChange}
+                    type="text"
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    required
                 />
             </label>
             <label>
                 Age:
                 <input
-                    type="number"
-                    name="age"
-                    value={formData.age}
-                    onChange={handleChange}
+                    type="text"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    required
                 />
             </label>
-            <button type="submit">Submit</button>
+            <button type="submit">Add Data</button>
         </form>
     );
 };

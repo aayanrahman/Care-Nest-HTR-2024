@@ -1,35 +1,40 @@
 import React from "react";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
 
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+
 interface ChartsProps {
-    data: {
-        temperature: string;
-        weight: string;
-        age: string;
-        advice: string;
-    }[];
+    data: { id: number; value: number; temperature: string }[];
 }
 
 const Charts: React.FC<ChartsProps> = ({ data }) => {
     const chartData = {
-        labels: data.map((_, index) => `Entry ${index + 1}`),
+        labels: data.map((entry) => `Entry ${entry.id}`),
         datasets: [
             {
-                label: "Temperature",
-                data: data.map((d) => parseFloat(d.temperature)),
-                borderColor: "blue",
-                fill: false,
-            },
-            {
-                label: "Weight",
-                data: data.map((d) => parseFloat(d.weight)),
-                borderColor: "green",
-                fill: false,
+                label: "Temperature (°C)",
+                data: data.map((entry) => entry.value), // Use numeric temperature values
+                borderColor: "rgb(75, 192, 192)",
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
             },
         ],
     };
 
-    return <Line data={chartData} />;
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: "top" as const,
+            },
+            title: {
+                display: true,
+                text: "Temperature Trends",
+            },
+        },
+    };
+
+    return <Line data={chartData} options={options} />;
 };
 
 export default Charts;
