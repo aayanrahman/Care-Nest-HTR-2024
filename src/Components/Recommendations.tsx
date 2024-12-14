@@ -7,6 +7,7 @@ interface RecommendationProps {
         weight: string;
         age: string;
         advice: string;
+        recommendations?: string; // Optional field
     }[];
 }
 
@@ -15,21 +16,30 @@ const Recommendations: React.FC<RecommendationProps> = ({ data }) => {
         <div>
             <h2>Advice and Recommendations</h2>
             {data.map((entry) => (
-                <div key={entry.id} style={{ marginBottom: "20px", padding: "10px", border: "1px solid #ddd" }}>
-                    <h3>Entry {entry.id}</h3>
-                    <p><strong>Temperature:</strong> {entry.temperature}</p>
-                    <p><strong>Weight:</strong> {entry.weight}</p>
-                    <p><strong>Age:</strong> {entry.age}</p>
+                <div
+                    key={entry.id}
+                    style={{
+                        background: "white",
+                        padding: "15px",
+                        borderRadius: "8px",
+                        marginBottom: "15px",
+                        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                    }}
+                >
+                    <h3 style={{ color: "#3498db" }}>Entry {entry.id}</h3>
                     <p>
-                        <strong>Advice:</strong>{" "}
-                        {entry.advice === "Fetching advice..." ? (
-                            <em style={{ color: "orange" }}>{entry.advice}</em>
-                        ) : entry.advice === "Error fetching advice." ? (
-                            <em style={{ color: "red" }}>{entry.advice}</em>
-                        ) : (
-                            entry.advice
-                        )}
+                        <strong>Temperature:</strong> {entry.temperature}°C
                     </p>
+                    <p>
+                        <strong>Weight:</strong> {entry.weight} lb
+                    </p>
+                    <p>
+                        <strong>Age:</strong> {entry.age} weeks
+                    </p>
+                    <p style={{ color: "green", fontWeight: "bold" }}>Diagnosis:</p>
+                    <p>{entry.advice}</p>
+                    <p style={{ color: "orange", fontWeight: "bold" }}>Recommendations:</p>
+                    <p>{entry.recommendations}</p> {/* Render recommendations */}
                 </div>
             ))}
         </div>

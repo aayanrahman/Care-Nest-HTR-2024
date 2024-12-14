@@ -1,20 +1,32 @@
-import React from "react";
-import Dashboard from "./Components/Dashboard";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './Components/Navbar.tsx';
+import Dashboard from './Components/Dashboard.tsx';
+import Charts from './Components/Charts';
+//import { DataProvider } from './contexts/DataContext.tsx';
+import DataInputForm from './Components/DataInputForm.tsx';
+import './App.css';
+import "boxicons/css/boxicons.min.css";
 
-const App = () => {
+
+const App: React.FC = () => {
     return (
-        <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-            <header>
-                <h1>SnugSafe Dashboard</h1>
-                <p>Monitor and analyze neonatal data with ease.</p>
-            </header>
-            <main>
-                <Dashboard />
-            </main>
-            <footer style={{ marginTop: "20px", textAlign: "center" }}>
-                <p>&copy; 2024 SnugSafe. All rights reserved.</p>
-            </footer>
-        </div>
+        <Router>
+            <Navbar />
+            <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+                <Routes>
+                    <Route path="/home" element={
+                        <>
+                            <h1>Home</h1>
+                            <p>Welcome to the SnugSafe Dashboard.</p>
+                            <DataInputForm addData={(newData) => { console.log(newData); }} />
+                        </>
+                    } />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/charts" element={<Charts data={[]} />} />
+                </Routes>
+            </div>
+        </Router>
     );
 };
 

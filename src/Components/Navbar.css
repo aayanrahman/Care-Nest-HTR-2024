@@ -1,0 +1,73 @@
+.navbar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between; /* Space between logo and nav items */
+    align-items: center; /* Vertically center the items */
+    background-color: #99AFB3;
+    padding: 15px 7%;
+    transition: background-color 0.3s, color 0.3s;
+    z-index: 1000;
+    box-sizing: border-box; /* Ensure padding is included in the width */
+    border-radius: 0px;
+}
+
+.logo {
+    width: 80px;
+    cursor: pointer;
+}
+
+ul {
+    display: flex; /* Flexbox for horizontal alignment */
+    flex: 1;
+    justify-content: center; /* Center-align nav items horizontally */
+    list-style: none;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+ul li {
+    display: inline-block;
+    margin: 0 20px; /* Space between nav items */
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+}
+
+ul li::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+}
+
+ul li:hover::after {
+    width: 100%;
+}
+
+ul li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul li:hover a {
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    ul {
+        flex-direction: column; /* Stack items vertically on smaller screens */
+        text-align: center;
+    }
+
+    ul li {
+        margin: 10px 0; /* Add vertical spacing for stacked items */
+    }
+}

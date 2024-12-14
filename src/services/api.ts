@@ -6,17 +6,40 @@ interface FormData {
     age: string;
 }
 
-export const getChatGPTResponse = async (data: FormData): Promise<string> => {
+interface ChatGPTResponse {
+    diagnosis: string;
+    reasoning: string;
+}
+
+interface OpenAIResponse {
+    choices: {
+        message: {
+            content: string;
+        };
+    }[];
+}
+
+export const getChatGPTResponse = async (data: FormData): Promise<ChatGPTResponse> => {
     try {
-        const response = await axios.post(
+        const response = await axios.post<OpenAIResponse>(
             "https://api.openai.com/v1/chat/completions",
             {
                 model: "gpt-3.5-turbo",
                 messages: [
-                    { role: "system", content: "You are a neonatal health diagnostic assistant." },
+                    {
+                        role: "system",
+                        content: "You are a neonatal health diagnostic assistant. Your task is to help doctors quickly understand the condition of a baby.",
+                    },
                     {
                         role: "user",
-                        content: `Diagnose the potential condition of a baby with a temperature of ${data.temperature}°C, a weight of ${data.weight} kg, and an age of ${data.age} months. Provide a diagnosis based on these parameters and explain your reasoning.`,
+                        content: `A baby has the following parameters:
+                        - Temperature: ${data.temperature}°C
+                        - Weight: ${data.weight} lb
+                        - Age: ${data.age} weeks.
+
+                        Provide:
+                        1. A concise diagnosis (3-5 words) to summarize the condition.
+                         Clear, actionable recommendations (1-2 sentences) that are easy to follow.`,
                     },
                 ],
             },
@@ -28,9 +51,23 @@ export const getChatGPTResponse = async (data: FormData): Promise<string> => {
             }
         );
 
-        return response.data.choices[0].message.content.trim();
-    } catch (error) {
-        console.error("Error fetching diagnosis:", error);
-        return "Error retrieving diagnosis.";
+        const fullResponse = response.data.choices?.[0]?.message?.content?.trim();
+        if (!fullResponse) {
+            throw new Error("Invalid response from OpenAI API.");
+        }
+
+        // Split response into diagnosis and recommendations
+        const [diagnosis, recommendations] = fullResponse.split("Recommendations:");
+
+        return {
+            diagnosis: diagnosis?.replace("Diagnosis:", "").trim() || "No diagnosis available.",
+            reasoning: recommendations?.trim() || "No recommendations available.",
+        };
+    } catch (error: any) {
+        console.error("Error fetching response from OpenAI API:", error.response || error);
+        return {
+            diagnosis: "Error fetching diagnosis.",
+            reasoning: "Error fetching recommendations.",
+        };
     }
 };
