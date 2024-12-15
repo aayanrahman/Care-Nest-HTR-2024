@@ -44,11 +44,11 @@ const DataInputForm: React.FC<DataInputFormProps> = ({ addData }) => {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: "10px", // Reduced gap between elements
+                gap: "25px", // Adjusted gap between elements for better spacing
                 height: "100vh", // Full viewport height
                 width: "100vw", // Full viewport width
                 backgroundColor: "#f9f9f9",
-                padding: "10px", // Reduced padding
+                padding: "30px", // Extra padding for better spacing on small screens
                 boxSizing: "border-box",
             }}
         >
@@ -56,68 +56,68 @@ const DataInputForm: React.FC<DataInputFormProps> = ({ addData }) => {
                 style={{
                     display: "flex",
                     flexDirection: "column",
-                    gap: "8px", // Smaller gap between fields
+                    gap: "20px", // Increased gap between fields
                     width: "100%",
-                    maxWidth: "300px", // Reduced max width for a compact form
+                    maxWidth: "400px",
                 }}
             >
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                    <span style={{ fontSize: "0.9rem", fontWeight: "500" }}>Temperature:</span>
+                <label style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                    <span style={{ fontSize: "1rem", fontWeight: "500" }}>Temperature:</span>
                     <input
                         type="text"
                         value={temperature}
                         onChange={(e) => setTemperature(e.target.value)}
                         required
                         style={{
-                            padding: "8px",
-                            borderRadius: "4px",
+                            padding: "12px",
+                            borderRadius: "6px",
                             border: "1px solid #ddd",
-                            fontSize: "0.9rem",
+                            fontSize: "1rem",
                         }}
                     />
                 </label>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                    <span style={{ fontSize: "0.9rem", fontWeight: "500" }}>Weight:</span>
+                <label style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                    <span style={{ fontSize: "1rem", fontWeight: "500" }}>Weight:</span>
                     <input
                         type="text"
                         value={weight}
                         onChange={(e) => setWeight(e.target.value)}
                         required
                         style={{
-                            padding: "8px",
-                            borderRadius: "4px",
+                            padding: "12px",
+                            borderRadius: "6px",
                             border: "1px solid #ddd",
-                            fontSize: "0.9rem",
+                            fontSize: "1rem",
                         }}
                     />
                 </label>
-                <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                    <span style={{ fontSize: "0.9rem", fontWeight: "500" }}>Age:</span>
+                <label style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                    <span style={{ fontSize: "1rem", fontWeight: "500" }}>Age:</span>
                     <input
                         type="text"
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
                         required
                         style={{
-                            padding: "8px",
-                            borderRadius: "4px",
+                            padding: "12px",
+                            borderRadius: "6px",
                             border: "1px solid #ddd",
-                            fontSize: "0.9rem",
+                            fontSize: "1rem",
                         }}
                     />
                 </label>
                 <button
                     type="submit"
                     style={{
-                        padding: "10px 15px",
+                        padding: "15px 20px",
                         backgroundColor: "#3498db",
                         color: "white",
                         border: "none",
-                        borderRadius: "4px",
+                        borderRadius: "6px",
                         cursor: "pointer",
-                        fontSize: "0.9rem",
+                        fontSize: "1rem",
                         width: "100%", // Button takes full width of form
-                        fontWeight: "500",
+                        fontWeight: "600",
                     }}
                 >
                     Add Data
