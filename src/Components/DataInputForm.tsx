@@ -62,7 +62,7 @@ const DataInputForm: React.FC<DataInputFormProps> = ({ addData }) => {
                 }}
             >
                 <label style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                    <span style={{ fontSize: "1rem", fontWeight: "500" }}>Temperature:</span>
+                    <span style={{ fontSize: "1rem", fontWeight: "500" }}>Temperature (°C):</span>
                     <input
                         type="text"
                         value={temperature}
@@ -77,7 +77,7 @@ const DataInputForm: React.FC<DataInputFormProps> = ({ addData }) => {
                     />
                 </label>
                 <label style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                    <span style={{ fontSize: "1rem", fontWeight: "500" }}>Weight:</span>
+                    <span style={{ fontSize: "1rem", fontWeight: "500" }}>Weight: (lbs)</span>
                     <input
                         type="text"
                         value={weight}
@@ -92,7 +92,7 @@ const DataInputForm: React.FC<DataInputFormProps> = ({ addData }) => {
                     />
                 </label>
                 <label style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                    <span style={{ fontSize: "1rem", fontWeight: "500" }}>Age:</span>
+                    <span style={{ fontSize: "1rem", fontWeight: "500" }}>Age: (weeks)</span>
                     <input
                         type="text"
                         value={age}

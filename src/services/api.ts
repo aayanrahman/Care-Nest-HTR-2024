@@ -1,73 +1,43 @@
-import axios from "axios";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-interface FormData {
+// Initialize Gemini API
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY as string);
+
+interface HealthData {
     temperature: string;
     weight: string;
     age: string;
 }
 
-interface ChatGPTResponse {
-    diagnosis: string;
-    reasoning: string;
-}
-
-interface OpenAIResponse {
-    choices: {
-        message: {
-            content: string;
-        };
-    }[];
-}
-
-export const getChatGPTResponse = async (data: FormData): Promise<ChatGPTResponse> => {
+export const getGeminiResponse = async (data: HealthData) => {
     try {
-        const response = await axios.post<OpenAIResponse>(
-            "https://api.openai.com/v1/chat/completions",
-            {
-                model: "gpt-3.5-turbo",
-                messages: [
-                    {
-                        role: "system",
-                        content: "You are a neonatal health diagnostic assistant. Your task is to help doctors quickly understand the condition of a baby.",
-                    },
-                    {
-                        role: "user",
-                        content: `A baby has the following parameters:
-                        - Temperature: ${data.temperature}°C
-                        - Weight: ${data.weight} lb
-                        - Age: ${data.age} weeks.
+        // Initialize the model
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-                        Provide:
-                        1. A concise diagnosis (3-5 words) to summarize the condition.
-                         Clear, actionable recommendations (1-2 sentences) that are easy to follow.`,
-                    },
-                ],
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
+        // Construct the prompt
+        const prompt = `Given these vital signs for a neonate:
+            Temperature: ${data.temperature}°C
+            Weight: ${data.weight}lbs
+            Age: ${data.age} weeks
+            
+            Please provide:
+            1. A medical diagnosis based on these parameters
+            2. Reasoning and recommendations for care`;
 
-        const fullResponse = response.data.choices?.[0]?.message?.content?.trim();
-        if (!fullResponse) {
-            throw new Error("Invalid response from OpenAI API.");
-        }
+        // Generate response
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
 
-        // Split response into diagnosis and recommendations
-        const [diagnosis, recommendations] = fullResponse.split("Recommendations:");
+        // Parse the response - you might need to adjust this based on how you want to structure the response
+        const [diagnosis, reasoning] = text.split('\n\n');
 
         return {
-            diagnosis: diagnosis?.replace("Diagnosis:", "").trim() || "No diagnosis available.",
-            reasoning: recommendations?.trim() || "No recommendations available.",
+            diagnosis: diagnosis.replace('1. ', '').trim(),
+            reasoning: reasoning.replace('2. ', '').trim()
         };
-    } catch (error: any) {
-        console.error("Error fetching response from OpenAI API:", error.response || error);
-        return {
-            diagnosis: "Error fetching diagnosis.",
-            reasoning: "Error fetching recommendations.",
-        };
+    } catch (error) {
+        console.error('Error calling Gemini API:', error);
+        throw error;
     }
 };

@@ -3,7 +3,7 @@ import DataInputForm from "./DataInputForm";
 import Charts from "./Charts";
 import Recommendations from "./Recommendations";
 import Navbar from "./Navbar"; // Import the Navbar component
-import { getChatGPTResponse } from "../services/api"; // Import your API call function
+import { getGeminiResponse } from "../services/api"; // Changed from getChatGPTResponse
 
 interface Data {
     id: number;
@@ -22,13 +22,13 @@ const Dashboard: React.FC = () => {
         const tempData: Data = {
             ...newData,
             advice: "Fetching diagnosis...",
-            recommendations: "Fetching recommendations...", // Temporary placeholder
+            recommendations: "Fetching recommendations..."
         };
     
         setData((prevData) => [...prevData, tempData]);
     
         try {
-            const result = await getChatGPTResponse({
+            const result = await getGeminiResponse({
                 temperature: newData.temperature,
                 weight: newData.weight,
                 age: newData.age,
