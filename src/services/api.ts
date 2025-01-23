@@ -14,27 +14,34 @@ export const getGeminiResponse = async (data: HealthData) => {
         // Initialize the model
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-        // Construct the prompt
-        const prompt = `Given these vital signs for a neonate:
-            Temperature: ${data.temperature}°C
-            Weight: ${data.weight}lbs
-            Age: ${data.age} weeks
-            
-            Please provide:
-            1. A medical diagnosis based on these parameters
-            2. Reasoning and recommendations for care`;
+        const prompt = `Act as a neonatal specialist. Analyze these clinical parameters for a preterm infant:
+        - Core Temperature: ${data.temperature}°C  
+        - Current Weight: ${data.weight} lbs  
+        - Postnatal Age: ${data.age} weeks  
+
+        Provide a structured response:
+        1. Clinical Assessment: Identify potential diagnoses based on these values  
+        2. Care Protocol: Evidence-based medical rationale and urgent intervention steps  
+
+        Format strictly as:
+        1. [Diagnosis]  
+        2. [Reasoning]  
+
+        Include only factual medical analysis, no disclaimers.`;
 
         // Generate response
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
 
-        // Parse the response - you might need to adjust this based on how you want to structure the response
-        const [diagnosis, reasoning] = text.split('\n\n');
+        // More robust parsing
+        const parts = text.split(/\d+\.\s+/);  // Split by numbered list items
+        const diagnosis = parts[1]?.replace(/\*\*/g, '') || "No diagnosis available";
+        const reasoning = parts[2]?.replace(/\*\*/g, '') || "No recommendations available";
 
         return {
-            diagnosis: diagnosis.replace('1. ', '').trim(),
-            reasoning: reasoning.replace('2. ', '').trim()
+            diagnosis: diagnosis.trim(),
+            reasoning: reasoning.trim()
         };
     } catch (error) {
         console.error('Error calling Gemini API:', error);
